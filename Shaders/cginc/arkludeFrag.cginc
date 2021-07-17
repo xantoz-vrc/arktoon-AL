@@ -403,18 +403,6 @@ float4 frag(VertexOutput i) : COLOR {
     float4 uvshake = float4(1,1,0,0);
     if (al_active)
     {
-        // uvshake +=
-        //     _ALBand0UVShake*(i.al.beat[0] - 0.5) +
-        //     _ALBand1UVShake*(i.al.beat[1] - 0.5) +
-        //     _ALBand2UVShake*(i.al.beat[2] - 0.5) +
-        //     _ALBand3UVShake*(i.al.beat[3] - 0.5);
-
-        // uvshake +=
-        //     _ALBand0UVShake*al_beat[0] +
-        //     _ALBand1UVShake*al_beat[1] +
-        //     _ALBand2UVShake*al_beat[2] +
-        //     _ALBand3UVShake*al_beat[3];
-
         uvshake +=
             _ALBand0UVShake*al_scurve[0] +
             _ALBand1UVShake*al_scurve[1] +
