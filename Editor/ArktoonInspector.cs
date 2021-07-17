@@ -174,6 +174,19 @@ namespace ArktoonShaders
         MaterialProperty EmissiveFreak2BlinkInMix;
         MaterialProperty EmissiveFreak2HueShift;
 
+        MaterialProperty ALEmissionInactiveMultiplier;
+        MaterialProperty ALEmissionActiveMultiplier;
+        MaterialProperty ALEmissiveMinBrightness;
+        MaterialProperty ALBand0EmissiveMul;
+        MaterialProperty ALBand1EmissiveMul;
+        MaterialProperty ALBand2EmissiveMul;
+        MaterialProperty ALBand3EmissiveMul;
+        MaterialProperty ALSCurveCount;
+        MaterialProperty ALBand0UVShake;
+        MaterialProperty ALBand1UVShake;
+        MaterialProperty ALBand2UVShake;
+        MaterialProperty ALBand3UVShake;
+
         // TODO: そろそろShaderUtil.GetPropertiesで一括処理したい。
         // ただ、その場合は、カスタムインスペクタで定義していない追加のプロパティを、このファイルを弄らずに動的に表示できるようにしてあげたい（改変の負荷軽減のため）
 
@@ -197,6 +210,7 @@ namespace ArktoonShaders
 
             // shader.nameによって調整可能なプロパティを制御する。
             bool isOpaque = shader.name.Contains("Opaque");
+            bool isAudioLink = shader.name.Contains("/AudioLink/");
             bool isFade = shader.name.Contains("Fade");
             bool isCutout = shader.name.Contains("Cutout");
             bool isStencilWriter = shader.name.Contains("Stencil/Writer") || shader.name.Contains("StencilWriter");
@@ -365,6 +379,19 @@ namespace ArktoonShaders
             EmissiveFreak2BlinkInMix = FindProperty("_EmissiveFreak2BlinkInMix", props, false);
             EmissiveFreak2HueShift = FindProperty("_EmissiveFreak2HueShift", props, false);
 
+            ALEmissionInactiveMultiplier = FindProperty(propertyName:"_ALEmissionInactiveMultiplier",  props, propertyIsMandatory: false);
+            ALEmissionActiveMultiplier = FindProperty(propertyName:"_ALEmissionActiveMultiplier",  props, propertyIsMandatory: false);
+            ALEmissiveMinBrightness = FindProperty(propertyName:"_ALEmissiveMinBrightness",  props, propertyIsMandatory: false);
+            ALBand0EmissiveMul      = FindProperty(propertyName:"_ALBand0EmissiveMul",       props, propertyIsMandatory: false);
+            ALBand1EmissiveMul      = FindProperty(propertyName:"_ALBand1EmissiveMul",       props, propertyIsMandatory: false);
+            ALBand2EmissiveMul      = FindProperty(propertyName:"_ALBand2EmissiveMul",       props, propertyIsMandatory: false);
+            ALBand3EmissiveMul      = FindProperty(propertyName:"_ALBand3EmissiveMul",       props, propertyIsMandatory: false);
+            ALSCurveCount           = FindProperty(propertyName:"_ALSCurveCount",            props, propertyIsMandatory: false);            
+            ALBand0UVShake          = FindProperty(propertyName:"_ALBand0UVShake",           props, propertyIsMandatory: false);
+            ALBand1UVShake          = FindProperty(propertyName:"_ALBand1UVShake",           props, propertyIsMandatory: false);
+            ALBand2UVShake          = FindProperty(propertyName:"_ALBand2UVShake",           props, propertyIsMandatory: false);
+            ALBand3UVShake          = FindProperty(propertyName:"_ALBand3UVShake",           props, propertyIsMandatory: false);
+
             EditorGUIUtility.labelWidth = 0f;
 
             EditorGUI.BeginChangeCheck();
@@ -419,6 +446,25 @@ namespace ArktoonShaders
                         materialEditor.TexturePropertySingleLine(new GUIContent("Main Texture", "Base Color Texture (RGB)"), BaseTextureSecondary, BaseColorSecondary);
                         materialEditor.TexturePropertySingleLine(new GUIContent("Normal Map", "Normal Map (RGB)"), NormalmapSecondary, BumpScaleSecondary);
                         materialEditor.TexturePropertySingleLine(new GUIContent("Emission", "Emission (RGB)"), EmissionMapSecondary, EmissionColorSecondary);
+                    });
+                }
+
+                if (isAudioLink) {
+                    UIHelper.ShurikenHeader("AudioLink");
+                    UIHelper.DrawWithGroup(() =>
+                    {
+                        materialEditor.FloatProperty(ALEmissionInactiveMultiplier, ALEmissionInactiveMultiplier.displayName);
+                        materialEditor.FloatProperty(ALEmissionActiveMultiplier, ALEmissionActiveMultiplier.displayName);
+                        materialEditor.FloatProperty(ALEmissiveMinBrightness, ALEmissiveMinBrightness.displayName);
+                        materialEditor.ColorProperty(ALBand0EmissiveMul, ALBand0EmissiveMul.displayName);
+                        materialEditor.ColorProperty(ALBand1EmissiveMul, ALBand1EmissiveMul.displayName);
+                        materialEditor.ColorProperty(ALBand2EmissiveMul, ALBand2EmissiveMul.displayName);
+                        materialEditor.ColorProperty(ALBand3EmissiveMul, ALBand3EmissiveMul.displayName);
+                        materialEditor.RangeProperty(ALSCurveCount, ALSCurveCount.displayName);
+                        materialEditor.VectorProperty(ALBand0UVShake, ALBand0UVShake.displayName);
+                        materialEditor.VectorProperty(ALBand1UVShake, ALBand1UVShake.displayName);
+                        materialEditor.VectorProperty(ALBand2UVShake, ALBand2UVShake.displayName);
+                        materialEditor.VectorProperty(ALBand3UVShake, ALBand3UVShake.displayName);
                     });
                 }
 

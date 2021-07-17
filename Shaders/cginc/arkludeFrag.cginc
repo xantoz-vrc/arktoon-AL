@@ -366,9 +366,86 @@ float4 frag(VertexOutput i) : COLOR {
         float3 emissiveFreak2 = float3(0,0,0);
     #endif
 
-    // Emissive合成・FinalColor計算
-    float3 _Emission = tex2D(REF_EMISSIONMAP,TRANSFORM_TEX(i.uv0, REF_EMISSIONMAP)).rgb *REF_EMISSIONCOLOR.rgb;
+    // Emissive合成・FinalColor計算 + AudioLink
+
+    // Fetch audiolink values to variables
+    #ifdef ARKTOON_AUDIOLINK
+    bool al_active = false;
+    float al_beat[4] = {0,0,0,0};
+    float al_scurve[4] = {0,0,0,0};
+
+    int w, h;
+    _AudioTexture.GetDimensions(w,h);
+    if (w > 16)
+    {
+        al_active = true;
+        for (int i = 0; i < 4; ++i)
+            al_scurve[i] = al_beat[i] = _AudioTexture[int2(0,i)].r;
+
+        const int scurve_count = _ALSCurveCount;
+        if (scurve_count >= 2)
+        {
+            // Just an approximation found by experimentation. scaling by this should make the value swing between roughly 1 and -1
+            const float scurve_scale = (scurve_count / UNITY_PI) + 0.5;
+            for (int i = 0; i < 4; ++i)
+            {
+                al_scurve[i] = 0;
+                for (int j = 0; j < scurve_count; ++j)
+                    al_scurve[i] += _AudioTexture[int2(j,i)]*cos(j*UNITY_PI/scurve_count);
+                al_scurve[i] /= scurve_scale;
+            }
+        }
+    }
+    #endif
+    
+    // Emission UV shake
+    #ifdef ARKTOON_AUDIOLINK
+    float4 uvshake = float4(1,1,0,0);
+    if (al_active)
+    {
+        // uvshake +=
+        //     _ALBand0UVShake*(i.al.beat[0] - 0.5) +
+        //     _ALBand1UVShake*(i.al.beat[1] - 0.5) +
+        //     _ALBand2UVShake*(i.al.beat[2] - 0.5) +
+        //     _ALBand3UVShake*(i.al.beat[3] - 0.5);
+
+        // uvshake +=
+        //     _ALBand0UVShake*al_beat[0] +
+        //     _ALBand1UVShake*al_beat[1] +
+        //     _ALBand2UVShake*al_beat[2] +
+        //     _ALBand3UVShake*al_beat[3];
+
+        uvshake +=
+            _ALBand0UVShake*al_scurve[0] +
+            _ALBand1UVShake*al_scurve[1] +
+            _ALBand2UVShake*al_scurve[2] +
+            _ALBand3UVShake*al_scurve[3];
+    }
+    float2 emissionUV = i.uv0.xy * uvshake.xy + uvshake.zw;
+    #else    
+    float2 emissionUV = i.uv0;
+    #endif
+   
+    float3 _Emission = tex2D(REF_EMISSIONMAP,TRANSFORM_TEX(emissionUV, REF_EMISSIONMAP)).rgb *REF_EMISSIONCOLOR.rgb;
     _Emission = _Emission + emissionParallax + emissiveFreak1 + emissiveFreak2;
+
+    // Emissive
+    #ifdef ARKTOON_AUDIOLINK
+    if (al_active)
+    {
+        _Emission *= _ALEmissionActiveMultiplier; // AL active so apply the active multiplier
+        _Emission *= _ALEmissiveMinBrightness +
+            _ALBand0EmissiveMul.rgb*al_beat[0] +
+            _ALBand1EmissiveMul.rgb*al_beat[1] +
+            _ALBand2EmissiveMul.rgb*al_beat[2] +
+            _ALBand3EmissiveMul.rgb*al_beat[3];
+    }
+    else
+    {
+        _Emission *= _ALEmissionInactiveMultiplier; // AL inactive so apply inactive multiplier
+    }
+    #endif
+
     float3 emissive = max( lerp(_Emission.rgb, _Emission.rgb * i.color, _VertexColorBlendEmissive) , RimLight) * !i.isOutline;
     float3 finalColor = emissive + finalcolor2;
 

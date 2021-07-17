@@ -214,3 +214,20 @@ uniform float _EmissiveFreak2BlinkInMix;
 uniform float _EmissiveFreak2HueShift;
 
 #endif
+
+// AudioLink
+#ifdef ARKTOON_AUDIOLINK
+Texture2D<float4> _AudioTexture;
+float _ALEmissionInactiveMultiplier;
+float _ALEmissionActiveMultiplier;
+float _ALEmissiveMinBrightness;
+float4 _ALBand0EmissiveMul;
+float4 _ALBand1EmissiveMul;
+float4 _ALBand2EmissiveMul;
+float4 _ALBand3EmissiveMul;
+float _ALSCurveCount;
+float4 _ALBand0UVShake;
+float4 _ALBand1UVShake;
+float4 _ALBand2UVShake;
+float4 _ALBand3UVShake;
+#endif
