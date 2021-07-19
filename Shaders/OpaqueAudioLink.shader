@@ -142,7 +142,7 @@ Shader "arktoon/AudioLink/Opaque" {
         [HDR]_ALBand2EmissiveMul ("AudioLink Emissive Mul Band 2", Color) = (0,0,0,1)
         [HDR]_ALBand3EmissiveMul ("AudioLink Emissive Mul Band 3", Color) = (0,0,0,1)
         // Uv shakes are controlled by S-curve
-        _ALSCurveCount ("AudioLink Shake S-curve based on how many samples (larger means slower, set to 1 is the same as regular beat)", Range(1, 128)) = 1
+        [IntRange]_ALSCurveCount ("AudioLink Shake S-curve based on how many samples (larger means slower, set to 1 is the same as regular beat)", Range(1, 128)) = 1
         _ALBand0UVShake ("Audiolink Emission UV Shake Band 0 (ST format)", Vector) = (0,0,0,0)
         _ALBand1UVShake ("Audiolink Emission UV Shake Band 1 (ST format)", Vector) = (0,0,0,0)
         _ALBand2UVShake ("Audiolink Emission UV Shake Band 2 (ST format)", Vector) = (0,0,0,0)
