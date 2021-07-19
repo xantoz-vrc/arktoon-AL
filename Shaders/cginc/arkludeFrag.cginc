@@ -379,20 +379,20 @@ float4 frag(VertexOutput i) : COLOR {
     if (w > 16)
     {
         al_active = true;
-        for (int i = 0; i < 4; ++i)
-            al_scurve[i] = al_beat[i] = _AudioTexture[int2(0,i)].r;
+        for (int ii = 0; ii < 4; ++ii)
+            al_scurve[ii] = al_beat[ii] = _AudioTexture[int2(0,ii)].r;
 
         const int scurve_count = _ALSCurveCount;
         if (scurve_count >= 2)
         {
             // Just an approximation found by experimentation. scaling by this should make the value swing between roughly 1 and -1
             const float scurve_scale = (scurve_count / UNITY_PI) + 0.5;
-            for (int i = 0; i < 4; ++i)
+            for (int ii = 0; ii < 4; ++ii)
             {
-                al_scurve[i] = 0;
-                for (int j = 0; j < scurve_count; ++j)
-                    al_scurve[i] += _AudioTexture[int2(j,i)]*cos(j*UNITY_PI/scurve_count);
-                al_scurve[i] /= scurve_scale;
+                al_scurve[ii] = 0;
+                for (int jj = 0; jj < scurve_count; ++jj)
+                    al_scurve[ii] += _AudioTexture[int2(jj,ii)]*cos(jj*UNITY_PI/scurve_count);
+                al_scurve[ii] /= scurve_scale;
             }
         }
     }
