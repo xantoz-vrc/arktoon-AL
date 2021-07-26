@@ -134,20 +134,36 @@ Shader "arktoon/AudioLink/Opaque" {
         // Version
         [HideInInspector]_Version("[hidden] Version", int) = 0
         
+        // AudioLink parameters
         _ALEmissionInactiveMultiplier ("Base emission multiplier when AL inactive (set to 0 to disable emission when AudioLink inactive)", Float) = 1.0
         _ALEmissionActiveMultiplier ("Base emission multiplier when AL active (you probably want to leave this at 1)", Float) = 1.0
         _ALEmissiveMinBrightness ("AudioLink Emission Minimum Brightness", Float) = 0.5
+        // Emission blink. For each band a color (multiplicative blend)
         [HDR]_ALBand0EmissiveMul ("AudioLink Emissive Mul Band 0", Color) = (0,0,0,1)
         [HDR]_ALBand1EmissiveMul ("AudioLink Emissive Mul Band 1", Color) = (0,0,0,1)
         [HDR]_ALBand2EmissiveMul ("AudioLink Emissive Mul Band 2", Color) = (0,0,0,1)
         [HDR]_ALBand3EmissiveMul ("AudioLink Emissive Mul Band 3", Color) = (0,0,0,1)
-        // Uv shakes are controlled by S-curve
+        // Histogram pulse across UV. For each band a color (multiplicative blend), a rotation and a scale factor
+        [HDR]_ALBand0EmissivePulseMul ("AudioLink Emissive Pulse Mul Band 0", Color) = (0,0,0,1)
+        [HDR]_ALBand1EmissivePulseMul ("AudioLink Emissive Pulse Mul Band 1", Color) = (0,0,0,1)
+        [HDR]_ALBand2EmissivePulseMul ("AudioLink Emissive Pulse Mul Band 2", Color) = (0,0,0,1)
+        [HDR]_ALBand3EmissivePulseMul ("AudioLink Emissive Pulse Mul Band 3", Color) = (0,0,0,1)
+        _ALBand0PulseRot ("AudioLink Emissive Pulse Rotation Band 0", Range(0, 360)) = 0.0
+        _ALBand1PulseRot ("AudioLink Emissive Pulse Rotation Band 1", Range(0, 360)) = 0.0
+        _ALBand2PulseRot ("AudioLink Emissive Pulse Rotation Band 2", Range(0, 360)) = 0.0
+        _ALBand3PulseRot ("AudioLink Emissive Pulse Rotation Band 3", Range(0, 360)) = 0.0
+        _ALBand0PulseScale ("AudioLink Emissive Pulse Scale Band 0", Float) = 1.0
+        _ALBand1PulseScale ("AudioLink Emissive Pulse Scale Band 1", Float) = 1.0
+        _ALBand2PulseScale ("AudioLink Emissive Pulse Scale Band 2", Float) = 1.0
+        _ALBand3PulseScale ("AudioLink Emissive Pulse Scale Band 3", Float) = 1.0
+        // UV shakes are controlled by S-curve
         [IntRange]_ALSCurveCount ("AudioLink Shake S-curve based on how many samples (larger means slower, set to 1 is the same as regular beat)", Range(1, 128)) = 1
         _ALBand0UVShake ("Audiolink Emission UV Shake Band 0 (ST format)", Vector) = (0,0,0,0)
         _ALBand1UVShake ("Audiolink Emission UV Shake Band 1 (ST format)", Vector) = (0,0,0,0)
         _ALBand2UVShake ("Audiolink Emission UV Shake Band 2 (ST format)", Vector) = (0,0,0,0)
         _ALBand3UVShake ("Audiolink Emission UV Shake Band 3 (ST format)", Vector) = (0,0,0,0)
-        
+        // Histogram pulse UV distortion. For each band a vector (ST), a scale and a rotation
+        // TODO
     }
     SubShader {
         Tags {

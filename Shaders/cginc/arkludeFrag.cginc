@@ -370,8 +370,21 @@ float4 frag(VertexOutput i) : COLOR {
 
     // Fetch audiolink values to variables
     #ifdef ARKTOON_AUDIOLINK
+    const float al_pulse_rot[4] = {
+        radians(_ALBand0PulseRot),
+        radians(_ALBand1PulseRot),
+        radians(_ALBand2PulseRot),
+        radians(_ALBand3PulseRot),
+    };
+    const float al_pulse_scale[4] = {
+        _ALBand0PulseScale,
+        _ALBand1PulseScale,
+        _ALBand2PulseScale,
+        _ALBand3PulseScale,
+    };
     bool al_active = false;
     float al_beat[4] = {0,0,0,0};
+    float al_pulse[4] = {0,0,0,0};
     float al_scurve[4] = {0,0,0,0};
 
     int w, h;
@@ -380,7 +393,17 @@ float4 frag(VertexOutput i) : COLOR {
     {
         al_active = true;
         for (int ii = 0; ii < 4; ++ii)
+        {
             al_scurve[ii] = al_beat[ii] = _AudioTexture[int2(0,ii)].r;
+
+            const float cos_rot = cos(al_pulse_rot[ii]);
+            const float sin_rot = sin(al_pulse_rot[ii]);
+            const float x_pos = ((i.uv0.x - 0.5)*cos_rot + (i.uv0.y - 0.5)*sin_rot)/(abs(cos_rot) + abs(sin_rot)) + 0.5;
+            al_pulse[ii] = _AudioTexture.Sample(
+                sampler_AudioTexture,
+                // TODO: offset/delay option could be useful
+                float2(frac(x_pos * al_pulse_scale[ii]), ii/128.0)).r;
+        }
 
         const int scurve_count = _ALSCurveCount;
         if (scurve_count >= 2)
@@ -426,7 +449,11 @@ float4 frag(VertexOutput i) : COLOR {
             _ALBand0EmissiveMul.rgb*al_beat[0] +
             _ALBand1EmissiveMul.rgb*al_beat[1] +
             _ALBand2EmissiveMul.rgb*al_beat[2] +
-            _ALBand3EmissiveMul.rgb*al_beat[3];
+            _ALBand3EmissiveMul.rgb*al_beat[3] +
+            _ALBand0EmissivePulseMul.rgb*al_pulse[0] +
+            _ALBand1EmissivePulseMul.rgb*al_pulse[1] +
+            _ALBand2EmissivePulseMul.rgb*al_pulse[2] +
+            _ALBand3EmissivePulseMul.rgb*al_pulse[3];
     }
     else
     {

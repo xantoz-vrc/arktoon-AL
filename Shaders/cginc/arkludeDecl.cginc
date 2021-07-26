@@ -218,6 +218,8 @@ uniform float _EmissiveFreak2HueShift;
 // AudioLink
 #ifdef ARKTOON_AUDIOLINK
 Texture2D<float4> _AudioTexture;
+SamplerState sampler_AudioTexture;
+
 float _ALEmissionInactiveMultiplier;
 float _ALEmissionActiveMultiplier;
 float _ALEmissiveMinBrightness;
@@ -225,6 +227,18 @@ float4 _ALBand0EmissiveMul;
 float4 _ALBand1EmissiveMul;
 float4 _ALBand2EmissiveMul;
 float4 _ALBand3EmissiveMul;
+float4 _ALBand0EmissivePulseMul;
+float4 _ALBand1EmissivePulseMul;
+float4 _ALBand2EmissivePulseMul;
+float4 _ALBand3EmissivePulseMul;
+float _ALBand0PulseRot;
+float _ALBand1PulseRot;
+float _ALBand2PulseRot;
+float _ALBand3PulseRot;
+float _ALBand0PulseScale;
+float _ALBand1PulseScale;
+float _ALBand2PulseScale;
+float _ALBand3PulseScale;
 float _ALSCurveCount;
 float4 _ALBand0UVShake;
 float4 _ALBand1UVShake;
