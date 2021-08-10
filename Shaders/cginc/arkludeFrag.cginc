@@ -387,8 +387,9 @@ float4 frag(VertexOutput i) : COLOR {
     float al_pulse[4] = {0,0,0,0};
     float al_scurve[4] = {0,0,0,0};
 
-    int w, h;
-    _AudioTexture.GetDimensions(w,h);
+    uint w, h, numMip;
+    //_AudioTexture.GetDimensions(w,h);
+    _AudioTexture.GetDimensions(0, w, h, numMip);
     if (w > 16)
     {
         al_active = true;
@@ -399,10 +400,20 @@ float4 frag(VertexOutput i) : COLOR {
             const float cos_rot = cos(al_pulse_rot[ii]);
             const float sin_rot = sin(al_pulse_rot[ii]);
             const float x_pos = ((i.uv0.x - 0.5)*cos_rot + (i.uv0.y - 0.5)*sin_rot)/(abs(cos_rot) + abs(sin_rot)) + 0.5;
-            al_pulse[ii] = _AudioTexture.Sample(
-                sampler_AudioTexture,
+            /*
+            al_pulse[ii] = _AudioTexture.SampleLevel(
+                sampler_linear_repeat,
                 // TODO: offset/delay option could be useful
-                float2(frac(x_pos * al_pulse_scale[ii]), ii/128.0)).r;
+                float2(frac(x_pos * al_pulse_scale[ii]), float(double(ii)/double(h))),
+                //float2(frac(x_pos * al_pulse_scale[ii]), 0.0),
+                //float2(0, float(ii)/float(h)),
+                //float2(0,0),
+                0,
+                int2(0,0)
+            ).r;
+            */
+
+            al_pulse[ii] = AudioLinkLerp(float2(frac(x_pos*al_pulse_scale[ii])*w, ii));
         }
 
         const int scurve_count = _ALSCurveCount;
