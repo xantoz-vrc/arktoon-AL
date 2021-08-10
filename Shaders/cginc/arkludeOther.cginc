@@ -103,3 +103,10 @@ float2 ComputeTransformCap(in float3 cameraSpaceViewDir, in float3 normalDirecti
         return ComputeNonPositionRelatedTransformCap(normalDirectionCap);
     }
 }
+
+#ifdef ARKTOON_AUDIOLINK
+float4 AudioLinkLerp(float2 xy)
+{
+    return lerp(_AudioTexture[int2(xy.x, xy.y)], _AudioTexture[int2(xy.x, xy.y) + int2(1,0)], frac(xy.x));
+}
+#endif

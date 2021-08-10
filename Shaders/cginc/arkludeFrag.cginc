@@ -387,7 +387,7 @@ float4 frag(VertexOutput i) : COLOR {
     float al_pulse[4] = {0,0,0,0};
     float al_scurve[4] = {0,0,0,0};
 
-    int w, h;
+    uint w, h;
     _AudioTexture.GetDimensions(w,h);
     if (w > 16)
     {
@@ -399,10 +399,7 @@ float4 frag(VertexOutput i) : COLOR {
             const float cos_rot = cos(al_pulse_rot[ii]);
             const float sin_rot = sin(al_pulse_rot[ii]);
             const float x_pos = ((i.uv0.x - 0.5)*cos_rot + (i.uv0.y - 0.5)*sin_rot)/(abs(cos_rot) + abs(sin_rot)) + 0.5;
-            al_pulse[ii] = _AudioTexture.Sample(
-                sampler_AudioTexture,
-                // TODO: offset/delay option could be useful
-                float2(frac(x_pos * al_pulse_scale[ii]), ii/128.0)).r;
+            al_pulse[ii] = AudioLinkLerp(float2(frac(x_pos*al_pulse_scale[ii])*w, ii));
         }
 
         const int scurve_count = _ALSCurveCount;
