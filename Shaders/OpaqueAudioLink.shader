@@ -186,7 +186,9 @@ Shader "arktoon/AudioLink/Opaque" {
             #pragma multi_compile_fwdbase_fullshadows
             #pragma multi_compile_fog
             #pragma only_renderers d3d9 d3d11 glcore gles
-            #pragma target 4.0
+            #pragma target 5.0
+            #pragma require integers
+            #pragma require samplelod
 
             #define ARKTOON_AUDIOLINK
 

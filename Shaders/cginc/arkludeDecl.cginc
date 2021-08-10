@@ -217,8 +217,13 @@ uniform float _EmissiveFreak2HueShift;
 
 // AudioLink
 #ifdef ARKTOON_AUDIOLINK
+uniform float4  _AudioTexture_TexelSize;
 Texture2D<float4> _AudioTexture;
 SamplerState sampler_AudioTexture;
+SamplerState sampler_linear_repeat;
+SamplerState sampler_linear_clamp;
+SamplerState sampler_point_repeat;
+SamplerState sampler_point_clamp;
 
 float _ALEmissionInactiveMultiplier;
 float _ALEmissionActiveMultiplier;
