@@ -156,6 +156,10 @@ Shader "arktoon/AudioLink/Opaque" {
         _ALBand1PulseScale ("AudioLink Emissive Pulse Scale Band 1", Float) = 1.0
         _ALBand2PulseScale ("AudioLink Emissive Pulse Scale Band 2", Float) = 1.0
         _ALBand3PulseScale ("AudioLink Emissive Pulse Scale Band 3", Float) = 1.0
+        _ALBand0PulseOffset ("AudioLink Emissive Pulse Offset Band 0", Range(0.0, 1.0)) = 0.0
+        _ALBand1PulseOffset ("AudioLink Emissive Pulse Offset Band 1", Range(0.0, 1.0)) = 0.0
+        _ALBand2PulseOffset ("AudioLink Emissive Pulse Offset Band 2", Range(0.0, 1.0)) = 0.0
+        _ALBand3PulseOffset ("AudioLink Emissive Pulse Offset Band 3", Range(0.0, 1.0)) = 0.0
         // UV shakes are controlled by S-curve
         [IntRange]_ALSCurveCount ("AudioLink Shake S-curve based on how many samples (larger means slower, set to 1 is the same as regular beat)", Range(1, 128)) = 1
         _ALBand0UVShake ("Audiolink Emission UV Shake Band 0 (ST format)", Vector) = (0,0,0,0)

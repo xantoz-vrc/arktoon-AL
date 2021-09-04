@@ -193,6 +193,10 @@ namespace ArktoonShaders
         MaterialProperty ALBand1PulseScale;
         MaterialProperty ALBand2PulseScale;
         MaterialProperty ALBand3PulseScale;
+        MaterialProperty ALBand0PulseOffset;
+        MaterialProperty ALBand1PulseOffset;
+        MaterialProperty ALBand2PulseOffset;
+        MaterialProperty ALBand3PulseOffset;
         MaterialProperty ALSCurveCount;
         MaterialProperty ALBand0UVShake;
         MaterialProperty ALBand1UVShake;
@@ -410,6 +414,10 @@ namespace ArktoonShaders
             ALBand1PulseScale       = FindProperty(propertyName:"_ALBand1PulseScale",        props, propertyIsMandatory: false);
             ALBand2PulseScale       = FindProperty(propertyName:"_ALBand2PulseScale",        props, propertyIsMandatory: false);
             ALBand3PulseScale       = FindProperty(propertyName:"_ALBand3PulseScale",        props, propertyIsMandatory: false);
+            ALBand0PulseOffset      = FindProperty(propertyName:"_ALBand0PulseOffset",       props, propertyIsMandatory: false);
+            ALBand1PulseOffset      = FindProperty(propertyName:"_ALBand1PulseOffset",       props, propertyIsMandatory: false);
+            ALBand2PulseOffset      = FindProperty(propertyName:"_ALBand2PulseOffset",       props, propertyIsMandatory: false);
+            ALBand3PulseOffset      = FindProperty(propertyName:"_ALBand3PulseOffset",       props, propertyIsMandatory: false);
             ALSCurveCount           = FindProperty(propertyName:"_ALSCurveCount",            props, propertyIsMandatory: false);
             ALBand0UVShake          = FindProperty(propertyName:"_ALBand0UVShake",           props, propertyIsMandatory: false);
             ALBand1UVShake          = FindProperty(propertyName:"_ALBand1UVShake",           props, propertyIsMandatory: false);
@@ -488,21 +496,37 @@ namespace ArktoonShaders
                         materialEditor.ColorProperty(ALBand3EmissiveMul, ALBand3EmissiveMul.displayName);
 
                         // Emissive Pulse over UV
-                        materialEditor.ColorProperty(ALBand0EmissivePulseMul, ALBand0EmissivePulseMul.displayName);
-                        materialEditor.RangeProperty(ALBand0PulseRot, ALBand0PulseRot.displayName);
-                        materialEditor.FloatProperty(ALBand0PulseScale, ALBand0PulseScale.displayName);
+                        UIHelper.DrawWithGroup(() =>
+                        {
+                            materialEditor.ColorProperty(ALBand0EmissivePulseMul, ALBand0EmissivePulseMul.displayName);
+                            materialEditor.RangeProperty(ALBand0PulseRot, ALBand0PulseRot.displayName);
+                            materialEditor.FloatProperty(ALBand0PulseScale, ALBand0PulseScale.displayName);
+                            materialEditor.ShaderProperty(ALBand0PulseOffset, ALBand0PulseOffset.displayName);
+                        });
 
-                        materialEditor.ColorProperty(ALBand1EmissivePulseMul, ALBand1EmissivePulseMul.displayName);
-                        materialEditor.RangeProperty(ALBand1PulseRot, ALBand1PulseRot.displayName);
-                        materialEditor.FloatProperty(ALBand1PulseScale, ALBand1PulseScale.displayName);
+                        UIHelper.DrawWithGroup(() =>
+                        {
+                            materialEditor.ColorProperty(ALBand1EmissivePulseMul, ALBand1EmissivePulseMul.displayName);
+                            materialEditor.RangeProperty(ALBand1PulseRot, ALBand1PulseRot.displayName);
+                            materialEditor.FloatProperty(ALBand1PulseScale, ALBand1PulseScale.displayName);
+                            materialEditor.ShaderProperty(ALBand1PulseOffset, ALBand1PulseOffset.displayName);
+                        });
 
-                        materialEditor.ColorProperty(ALBand2EmissivePulseMul, ALBand2EmissivePulseMul.displayName);
-                        materialEditor.RangeProperty(ALBand2PulseRot, ALBand2PulseRot.displayName);
-                        materialEditor.FloatProperty(ALBand2PulseScale, ALBand2PulseScale.displayName);
+                        UIHelper.DrawWithGroup(() =>
+                        {
+                            materialEditor.ColorProperty(ALBand2EmissivePulseMul, ALBand2EmissivePulseMul.displayName);
+                            materialEditor.RangeProperty(ALBand2PulseRot, ALBand2PulseRot.displayName);
+                            materialEditor.FloatProperty(ALBand2PulseScale, ALBand2PulseScale.displayName);
+                            materialEditor.ShaderProperty(ALBand2PulseOffset, ALBand2PulseOffset.displayName);
+                        });
 
-                        materialEditor.ColorProperty(ALBand3EmissivePulseMul, ALBand3EmissivePulseMul.displayName);
-                        materialEditor.RangeProperty(ALBand3PulseRot, ALBand3PulseRot.displayName);
-                        materialEditor.FloatProperty(ALBand3PulseScale, ALBand3PulseScale.displayName);
+                        UIHelper.DrawWithGroup(() =>
+                        {
+                            materialEditor.ColorProperty(ALBand3EmissivePulseMul, ALBand3EmissivePulseMul.displayName);
+                            materialEditor.RangeProperty(ALBand3PulseRot, ALBand3PulseRot.displayName);
+                            materialEditor.FloatProperty(ALBand3PulseScale, ALBand3PulseScale.displayName);
+                            materialEditor.ShaderProperty(ALBand3PulseOffset, ALBand3PulseOffset.displayName);
+                        });
 
                         // UV Shake
                         materialEditor.RangeProperty(ALSCurveCount, ALSCurveCount.displayName);

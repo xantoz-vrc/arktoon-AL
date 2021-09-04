@@ -382,6 +382,12 @@ float4 frag(VertexOutput i) : COLOR {
         _ALBand2PulseScale,
         _ALBand3PulseScale,
     };
+    const float al_pulse_offset[4] = {
+        _ALBand0PulseOffset,
+        _ALBand1PulseOffset,
+        _ALBand2PulseOffset,
+        _ALBand3PulseOffset,
+    };
     bool al_active = false;
     float al_beat[4] = {0,0,0,0};
     float al_pulse[4] = {0,0,0,0};
@@ -399,7 +405,7 @@ float4 frag(VertexOutput i) : COLOR {
             const float cos_rot = cos(al_pulse_rot[ii]);
             const float sin_rot = sin(al_pulse_rot[ii]);
             const float x_pos = ((i.uv0.x - 0.5)*cos_rot + (i.uv0.y - 0.5)*sin_rot)/(abs(cos_rot) + abs(sin_rot)) + 0.5;
-            al_pulse[ii] = AudioLinkLerp(float2(frac(x_pos*al_pulse_scale[ii])*w, ii));
+            al_pulse[ii] = AudioLinkLerp(float2(frac(x_pos*al_pulse_scale[ii] + al_pulse_offset[ii])*w, ii));
         }
 
         const int scurve_count = _ALSCurveCount;
