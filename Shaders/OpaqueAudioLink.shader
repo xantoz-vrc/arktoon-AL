@@ -138,6 +138,7 @@ Shader "arktoon/AudioLink/Opaque" {
         _ALEmissionInactiveMultiplier ("Base emission multiplier when AL inactive (set to 0 to disable emission when AudioLink inactive)", Float) = 1.0
         _ALEmissionActiveMultiplier ("Base emission multiplier when AL active (you probably want to leave this at 1)", Float) = 1.0
         _ALEmissiveMinBrightness ("AudioLink Emission Minimum Brightness", Float) = 0.5
+        _ALMask ("AudioLink mask", 2D) = "white" {} // red channel is bass, green channel is low mid, blue channel is high mid and alpha is treble
         // Emission blink. For each band a color (multiplicative blend)
         [HDR]_ALBand0EmissiveMul ("AudioLink Emissive Mul Band 0", Color) = (0,0,0,1)
         [HDR]_ALBand1EmissiveMul ("AudioLink Emissive Mul Band 1", Color) = (0,0,0,1)

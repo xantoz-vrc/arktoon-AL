@@ -177,6 +177,7 @@ namespace ArktoonShaders
         MaterialProperty ALEmissionInactiveMultiplier;
         MaterialProperty ALEmissionActiveMultiplier;
         MaterialProperty ALEmissiveMinBrightness;
+        MaterialProperty ALMask;
         MaterialProperty ALBand0EmissiveMul;
         MaterialProperty ALBand1EmissiveMul;
         MaterialProperty ALBand2EmissiveMul;
@@ -398,6 +399,7 @@ namespace ArktoonShaders
             ALEmissionInactiveMultiplier = FindProperty(propertyName:"_ALEmissionInactiveMultiplier",  props, propertyIsMandatory: false);
             ALEmissionActiveMultiplier = FindProperty(propertyName:"_ALEmissionActiveMultiplier",  props, propertyIsMandatory: false);
             ALEmissiveMinBrightness = FindProperty(propertyName:"_ALEmissiveMinBrightness",  props, propertyIsMandatory: false);
+            ALMask                  = FindProperty(propertyName:"_ALMask",                   props, propertyIsMandatory: false);
             ALBand0EmissiveMul      = FindProperty(propertyName:"_ALBand0EmissiveMul",       props, propertyIsMandatory: false);
             ALBand1EmissiveMul      = FindProperty(propertyName:"_ALBand1EmissiveMul",       props, propertyIsMandatory: false);
             ALBand2EmissiveMul      = FindProperty(propertyName:"_ALBand2EmissiveMul",       props, propertyIsMandatory: false);
@@ -488,6 +490,7 @@ namespace ArktoonShaders
                         materialEditor.FloatProperty(ALEmissionInactiveMultiplier, ALEmissionInactiveMultiplier.displayName);
                         materialEditor.FloatProperty(ALEmissionActiveMultiplier, ALEmissionActiveMultiplier.displayName);
                         materialEditor.FloatProperty(ALEmissiveMinBrightness, ALEmissiveMinBrightness.displayName);
+                        materialEditor.ShaderProperty(ALMask, ALMask.displayName);
 
                         // Emissive blink
                         materialEditor.ColorProperty(ALBand0EmissiveMul, ALBand0EmissiveMul.displayName);

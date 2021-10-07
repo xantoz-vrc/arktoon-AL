@@ -392,12 +392,15 @@ float4 frag(VertexOutput i) : COLOR {
     float al_beat[4] = {0,0,0,0};
     float al_pulse[4] = {0,0,0,0};
     float al_scurve[4] = {0,0,0,0};
+    float4 al_mask = {0,0,0,0};
 
     uint w, h;
     _AudioTexture.GetDimensions(w,h);
     if (w > 16)
     {
         al_active = true;
+        al_mask = UNITY_SAMPLE_TEX2D_SAMPLER(_ALMask, REF_MAINTEX, TRANSFORM_TEX(i.uv0, _ALMask));
+
         for (int ii = 0; ii < 4; ++ii)
         {
             al_scurve[ii] = al_beat[ii] = _AudioTexture[int2(0,ii)].r;
@@ -449,14 +452,10 @@ float4 frag(VertexOutput i) : COLOR {
     {
         _Emission *= _ALEmissionActiveMultiplier; // AL active so apply the active multiplier
         _Emission *= _ALEmissiveMinBrightness +
-            _ALBand0EmissiveMul.rgb*al_beat[0] +
-            _ALBand1EmissiveMul.rgb*al_beat[1] +
-            _ALBand2EmissiveMul.rgb*al_beat[2] +
-            _ALBand3EmissiveMul.rgb*al_beat[3] +
-            _ALBand0EmissivePulseMul.rgb*al_pulse[0] +
-            _ALBand1EmissivePulseMul.rgb*al_pulse[1] +
-            _ALBand2EmissivePulseMul.rgb*al_pulse[2] +
-            _ALBand3EmissivePulseMul.rgb*al_pulse[3];
+            (_ALBand0EmissiveMul.rgb*al_beat[0] + _ALBand0EmissivePulseMul.rgb*al_pulse[0])*al_mask.r +
+            (_ALBand1EmissiveMul.rgb*al_beat[1] + _ALBand1EmissivePulseMul.rgb*al_pulse[1])*al_mask.g +
+            (_ALBand2EmissiveMul.rgb*al_beat[2] + _ALBand2EmissivePulseMul.rgb*al_pulse[2])*al_mask.b +
+            (_ALBand3EmissiveMul.rgb*al_beat[3] + _ALBand3EmissivePulseMul.rgb*al_pulse[3])*al_mask.a;
     }
     else
     {

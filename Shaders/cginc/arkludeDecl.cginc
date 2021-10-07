@@ -218,7 +218,7 @@ uniform float _EmissiveFreak2HueShift;
 // AudioLink
 #ifdef ARKTOON_AUDIOLINK
 Texture2D<float4> _AudioTexture;
-SamplerState sampler_AudioTexture;
+UNITY_DECLARE_TEX2D_NOSAMPLER(_ALMask); uniform float4 _ALMask_ST;
 
 float _ALEmissionInactiveMultiplier;
 float _ALEmissionActiveMultiplier;
