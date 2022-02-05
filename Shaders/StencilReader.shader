@@ -145,6 +145,7 @@ Shader "arktoon/Stencil/Reader/Cutout" {
         Tags {
             "Queue"="AlphaTest+1"
             "RenderType" = "TransparentCutout"
+            "VRCFallback"="ToonDoubleSided"
         }
         Pass {
             Name "FORWARD"

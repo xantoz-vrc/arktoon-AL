@@ -146,6 +146,7 @@ Shader "arktoon/FadeRefracted" {
         Tags {
             "Queue"="Transparent"
             "RenderType"="Transparent"
+            "VRCFallback"="ToonFadeDoubleSided"
         }
         GrabPass{ }
         Pass {

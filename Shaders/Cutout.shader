@@ -143,6 +143,7 @@ Shader "arktoon/AlphaCutout" {
             "Queue"="AlphaTest"
             "RenderType" = "TransparentCutout"
             "IgnoreProjector"="True"
+            "VRCFallback"="ToonCutoutDoubleSided"
         }
         Pass {
             Name "FORWARD"

@@ -175,6 +175,7 @@ Shader "arktoon/_Extra/EmissiveFreak/StencilWriterCutout" {
         Tags {
             "Queue"="AlphaTest"
             "RenderType" = "TransparentCutout"
+            "VRCFallback"="ToonDoubleSided"
         }
         Pass {
             Name "FORWARD"

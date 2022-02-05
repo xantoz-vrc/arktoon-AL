@@ -174,6 +174,7 @@ Shader "arktoon/_Extra/EmissiveFreak/Fade" {
         Tags {
             "Queue"="Transparent"
             "RenderType"="Transparent"
+            "VRCFallback"="ToonFadeDoubleSided"
         }
         Pass {
             Name "FORWARD"

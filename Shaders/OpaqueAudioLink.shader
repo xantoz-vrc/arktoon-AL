@@ -172,8 +172,9 @@ Shader "arktoon/AudioLink/Opaque" {
     }
     SubShader {
         Tags {
-			"Queue"="Geometry"
+	    "Queue"="Geometry"
             "RenderType"="Opaque"
+            "VRCFallback"="ToonDoubleSided"
         }
         Pass {
             Name "FORWARD"

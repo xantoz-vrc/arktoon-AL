@@ -146,6 +146,7 @@ Shader "arktoon/Stencil/Reader/Fade" {
         Tags {
             "Queue"="Transparent"
             "RenderType"="Transparent"
+            "VRCFallback"="ToonDoubleSided"
         }
         Pass {
             Name "FORWARD"

@@ -167,8 +167,9 @@ Shader "arktoon/_Extra/EmissiveFreak/Opaque" {
     }
     SubShader {
         Tags {
-			"Queue"="Geometry"
+	    "Queue"="Geometry"
             "RenderType"="Opaque"
+            "VRCFallback"="ToonDoubleSided"
         }
         Pass {
             Name "FORWARD"

@@ -143,6 +143,7 @@ Shader "arktoon/Fade" {
         Tags {
             "Queue"="Transparent"
             "RenderType"="Transparent"
+            "VRCFallback"="ToonFadeDoubleSided"
         }
         Pass {
             Name "FORWARD"

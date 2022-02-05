@@ -147,6 +147,7 @@ Shader "arktoon/Stencil/WriterMask/Cutout" {
         Tags {
             "Queue"="AlphaTest"
             "RenderType" = "TransparentCutout"
+            "VRCFallback"="ToonDoubleSided"
         }
         Pass {
             Name "STENCIL_WRITER"

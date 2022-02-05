@@ -177,6 +177,7 @@ Shader "arktoon/_Extra/EmissiveFreak/FadeRefracted" {
         Tags {
             "Queue"="Transparent"
             "RenderType"="Transparent"
+            "VRCFallback"="ToonFadeDoubleSided"
         }
         GrabPass{ }
         Pass {
