@@ -1,5 +1,6 @@
 
 float4 frag(VertexOutput i) : COLOR {
+    UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 
     float3x3 tangentTransform = float3x3( i.tangentDir, i.bitangentDir, i.normalDir * lerp(1, i.faceSign, _DoubleSidedFlipBackfaceNormal));
     float3 viewDirection = normalize(UnityWorldSpaceViewDir(i.posWorld.xyz));

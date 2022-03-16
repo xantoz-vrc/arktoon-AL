@@ -162,6 +162,7 @@ Shader "arktoon/Fade" {
             #pragma fragment frag
             #pragma multi_compile_fwdbase
             #pragma multi_compile_fog
+            #pragma multi_compile_instancing
             #pragma only_renderers d3d9 d3d11 glcore gles
             #pragma target 4.0
             #define ARKTOON_FADE
@@ -188,6 +189,7 @@ Shader "arktoon/Fade" {
             #pragma fragment frag
             #pragma multi_compile_fwdadd
             #pragma multi_compile_fog
+            #pragma multi_compile_instancing
             #pragma only_renderers d3d9 d3d11 glcore gles
             #pragma target 4.0
             #define ARKTOON_FADE
@@ -214,6 +216,7 @@ Shader "arktoon/Fade" {
 
             // -------------------------------------
             #pragma multi_compile_shadowcaster
+            #pragma multi_compile_instancing
 
             #pragma vertex vertShadowCaster
             #pragma fragment fragShadowCaster

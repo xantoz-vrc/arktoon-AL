@@ -167,6 +167,7 @@ Shader "arktoon/Stencil/Writer/Cutout" {
             #pragma fragment frag
             #pragma multi_compile_fwdbase_fullshadows
             #pragma multi_compile_fog
+            #pragma multi_compile_instancing
             #pragma only_renderers d3d9 d3d11 glcore gles
             #pragma target 4.0
             #define ARKTOON_CUTOUT
@@ -198,6 +199,7 @@ Shader "arktoon/Stencil/Writer/Cutout" {
             #pragma fragment frag
             #pragma multi_compile_fwdadd_fullshadows
             #pragma multi_compile_fog
+            #pragma multi_compile_instancing
             #pragma only_renderers d3d9 d3d11 glcore gles
             #pragma target 4.0
             #define ARKTOON_CUTOUT
@@ -225,6 +227,7 @@ Shader "arktoon/Stencil/Writer/Cutout" {
             #pragma fragmentoption ARB_precision_hint_fastest
             #pragma multi_compile_shadowcaster
             #pragma multi_compile_fog
+            #pragma multi_compile_instancing
             #pragma only_renderers d3d9 d3d11 glcore gles
             #pragma target 4.0
             uniform float _CutoutCutoutAdjust;
@@ -233,19 +236,30 @@ Shader "arktoon/Stencil/Writer/Cutout" {
             struct VertexInput {
                 float4 vertex : POSITION;
                 float2 texcoord0 : TEXCOORD0;
+
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             struct VertexOutput {
                 V2F_SHADOW_CASTER;
                 float2 uv0 : TEXCOORD1;
+
+                UNITY_VERTEX_OUTPUT_STEREO
             };
             VertexOutput vert (VertexInput v) {
                 VertexOutput o = (VertexOutput)0;
+
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_INITIALIZE_OUTPUT(VertexOutput, o);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
                 o.uv0 = v.texcoord0;
                 o.pos = UnityObjectToClipPos( v.vertex );
                 TRANSFER_SHADOW_CASTER(o)
                 return o;
             }
             float4 frag(VertexOutput i) : COLOR {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
+
                 float4 _MainTex_var = tex2D(_MainTex,TRANSFORM_TEX(i.uv0, _MainTex));
                 clip((_MainTex_var.a * _Color.a) - _CutoutCutoutAdjust);
                 SHADOW_CASTER_FRAGMENT(i)

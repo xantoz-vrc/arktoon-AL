@@ -21,11 +21,18 @@ struct v2g
     #ifdef ARKTOON_REFRACTED
         noperspective float2 grabUV : TEXCOORD8;
     #endif
+
+    UNITY_VERTEX_OUTPUT_STEREO
 };
 
 
 v2g vert(appdata_full v) {
     v2g o;
+
+    UNITY_SETUP_INSTANCE_ID(v);
+    UNITY_INITIALIZE_OUTPUT(v2g, o);
+    UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
     o.uv0 = v.texcoord;
     o.normal = v.normal;
     o.tangent = v.tangent;
@@ -92,6 +99,8 @@ struct VertexOutput {
     #ifdef ARKTOON_REFRACTED
         noperspective float2 grabUV : TEXCOORD8;
     #endif
+
+    UNITY_VERTEX_OUTPUT_STEREO
 };
 
 #ifndef ARKTOON_ADD
@@ -132,6 +141,9 @@ struct VertexOutput {
 void geom(triangle v2g IN[3], inout TriangleStream<VertexOutput> tristream)
 {
     VertexOutput o;
+
+    UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(IN[0]);
+
     #if !defined(ARKTOON_REFRACTED)
     if (_UseOutline) {
         for (int i = 2; i >= 0; i--)
@@ -139,6 +151,9 @@ void geom(triangle v2g IN[3], inout TriangleStream<VertexOutput> tristream)
             float4 _OutlineTexture_var = tex2Dlod (_OutlineTexture, float4( TRANSFORM_TEX(IN[i].uv0, _OutlineTexture), 0, 0));
             float _OutlineWidthMask_var = tex2Dlod (_OutlineWidthMask, float4( TRANSFORM_TEX(IN[i].uv0, _OutlineWidthMask), 0, 0));
             float width = _OutlineWidth * _OutlineWidthMask_var;
+
+            UNITY_INITIALIZE_OUTPUT(VertexOutput, o);
+            UNITY_TRANSFER_VERTEX_OUTPUT_STEREO(IN[i], o);
 
             o.normalDir = UnityObjectToWorldNormal(IN[i].normal);
             o.pos = mul( UNITY_MATRIX_VP, mul( unity_ObjectToWorld, IN[i].vertex ) + float4(normalize(o.normalDir) * (width * 0.01), 0));
@@ -193,6 +208,9 @@ void geom(triangle v2g IN[3], inout TriangleStream<VertexOutput> tristream)
     if (_UseDoubleSided) {
         for (int iii = 2; iii >= 0; iii--)
         {
+            UNITY_INITIALIZE_OUTPUT(VertexOutput, o);
+            UNITY_TRANSFER_VERTEX_OUTPUT_STEREO(IN[iii], o);
+
             o.pos = UnityObjectToClipPos(IN[iii].vertex);
             o.uv0 = IN[iii].uv0;
             o.col = fixed4(1., 1., 1., 0.);
@@ -244,6 +262,9 @@ void geom(triangle v2g IN[3], inout TriangleStream<VertexOutput> tristream)
 
     for (int ii = 0; ii < 3; ii++)
     {
+        UNITY_INITIALIZE_OUTPUT(VertexOutput, o);
+        UNITY_TRANSFER_VERTEX_OUTPUT_STEREO(IN[ii], o);
+
         o.pos = UnityObjectToClipPos(IN[ii].vertex);
         o.uv0 = IN[ii].uv0;
         o.col = fixed4(1., 1., 1., 0.);
